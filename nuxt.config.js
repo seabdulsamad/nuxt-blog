@@ -20,16 +20,23 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat&display=swap' },
     ]
+  },
+
+  router: {
+    // middleware: ['auth']
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/style.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/preload'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,11 +52,41 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000/',
+    proxyHeaders: false,
+    credentials: false,
+    baseURL: 'http://localhost:8000/api/',
+    // headers: {
+    //   'Content-Type': 'application/json',
+    // }
+  },
+  auth: {
+    redirect: {
+      callback: '/auth/login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'access_token',
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: 'user',
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: `http://localhost:8000/api/auth/login`, method: 'post' },
+          user: { url: `http://localhost:8000/api/auth/me`, method: 'post' },
+          logout: { url: `http://localhost:8000/api/auth/logout`, method: 'post' }
+        },
+      }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
