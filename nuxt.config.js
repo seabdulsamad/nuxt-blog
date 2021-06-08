@@ -17,16 +17,18 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat&display=swap' },
     ]
   },
-
+  env: {
+    baseUrl: process.env.BASE_URL || 'https://lumen-blog.000webhostapp.com/blog/'
+  },
   router: {
-    // middleware: ['auth']
+    middleware: ['auth'],
+    base: '/blog/',
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -59,15 +61,15 @@ export default {
   axios: {
     proxyHeaders: false,
     credentials: false,
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'https://lumen-blog.000webhostapp.com/public/api/',
     // headers: {
     //   'Content-Type': 'application/json',
     // }
   },
   auth: {
     redirect: {
-      callback: '/auth/login',
-      home: '/'
+      callback: '/login',
+      home: '/posts'
     },
     strategies: {
       local: {
@@ -77,13 +79,13 @@ export default {
           type: 'Bearer'
         },
         user: {
-          property: 'user',
+          property: false,
           autoFetch: true
         },
         endpoints: {
-          login: { url: `http://localhost:8000/api/auth/login`, method: 'post' },
-          user: { url: `http://localhost:8000/api/auth/me`, method: 'post' },
-          logout: { url: `http://localhost:8000/api/auth/logout`, method: 'post' }
+          login: { url: `https://lumen-blog.000webhostapp.com/public/api/auth/login`, method: 'post' },
+          user: { url: `https://lumen-blog.000webhostapp.com/public/api/auth/me`, method: 'post' },
+          logout: { url: `https://lumen-blog.000webhostapp.com/public/api/auth/logout`, method: 'post' }
         },
       }
     }

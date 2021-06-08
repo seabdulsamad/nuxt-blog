@@ -67,6 +67,9 @@ export default {
     loading() {
       return this.$auth.$storage.getState("loginLoading");
     },
+    loggedIn() {
+      return this.$auth.loggedIn;
+    },
   },
   methods: {
     fetchUsers() {
@@ -86,6 +89,11 @@ export default {
           this.$auth.$storage.setState("loginLoading", false);
         }
       }
+    },
+  },
+  watch: {
+    loggedIn() {
+      if (this.loggedIn) this.$router.replace({ name: "posts-index" });
     },
   },
 };

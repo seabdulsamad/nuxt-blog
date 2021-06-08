@@ -16,7 +16,10 @@
 </template>
 <script>
 export default {
-  props: { postId: { type: Number, required: true } },
+  props: {
+    postId: { type: Number, required: true },
+    reload: { type: Boolean },
+  },
   data: () => ({
     comments: [],
   }),
@@ -27,7 +30,15 @@ export default {
     fetchPostComments() {
       this.$axios
         .get(`posts/${this.postId}/comments`)
-        .then((res) => (this.comments = res.data));
+        .then((res) => (this.comments = res.data))
+        .finally(() => {
+          this.$emit("onReloaded", true);
+        });
+    },
+  },
+  watch: {
+    reload() {
+      if (this.reload) this.fetchPostComments();
     },
   },
 };

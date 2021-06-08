@@ -10,12 +10,16 @@
     <p class="py-3">{{ post.description }}</p>
     <h3 class="text-lg">Comments</h3>
     <v-flex>
-      <post-comments :postId="$route.query.postId" />
+      <post-comments
+        :postId="$route.query.postId"
+        :reload="reloadComments"
+        @onReloaded="reloadComments = false"
+      />
     </v-flex>
     <v-flex>
       <save-comment
         :postId="$route.query.postId"
-        @onPostedComment="fetchPostById()"
+        @onPostedComment="reloadComments = true"
       />
     </v-flex>
   </v-container>
@@ -25,7 +29,7 @@ import PostComments from "@/components/comments/postsComments";
 import SaveComment from "@/components/comments/saveComment";
 export default {
   components: { "post-comments": PostComments, "save-comment": SaveComment },
-  data: () => ({ post: null }),
+  data: () => ({ post: null, reloadComments: false }),
   created() {
     this.fetchPostById();
   },

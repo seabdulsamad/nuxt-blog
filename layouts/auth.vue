@@ -25,3 +25,17 @@
     </v-main>
   </v-app>
 </template>
+<script>
+export default {
+  computed: {
+    loggedIn() {
+      return this.$auth.loggedIn;
+    },
+  },
+  watch: {
+    loggedIn() {
+      if (this.loggedIn) this.$router.replace({ name: "posts-index" });
+    },
+  },
+};
+</script>

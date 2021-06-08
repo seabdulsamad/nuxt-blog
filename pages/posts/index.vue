@@ -16,7 +16,7 @@
               <v-icon small left>mdi-account</v-icon>{{ post.user.name }}
               <v-icon small left right>mdi-calendar</v-icon
               >{{ post.created_at }}
-              <div class="pt-2">{{ post.description }}</div>
+              <div class="pt-2 text-truncate">{{ post.description }}</div>
             </v-card-text>
           </v-card>
         </nuxt-link>

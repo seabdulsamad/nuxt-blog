@@ -12,13 +12,13 @@
 <script>
 export default {
   props: { postId: { type: Number, required: true } },
-  data: () => ({ params: { text: null, postId: null }, loading: false }),
+  data: () => ({ params: { text: null, post_id: null }, loading: false }),
   created() {
-    this.params.postId = this.postId;
+    this.params.post_id = this.postId;
   },
   methods: {
     onSaveComment() {
-      if (_.size(this.text)) {
+      if (_.size(this.params.text)) {
         this.loading = true;
         this.$axios
           .post(`/comments`, this.params)
